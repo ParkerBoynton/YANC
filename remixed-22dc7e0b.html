@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Signup Sheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            background: transparent;
+            border: none;
+            padding: 15px 30px;
+            margin: 0 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #667eea;
+        }
+
+        .tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .dropdown-section {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            overflow: hidden;
+        }
+
+        .dropdown-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-header:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+        }
+
+        .dropdown-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 30px;
+            background: linear-gradient(145deg, #f8f9ff, #e8ecff);
+        }
+
+        .dropdown-content.open {
+            display: block;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .signup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .signup-column {
+            background: linear-gradient(145deg, #f8f9ff, #e8ecff);
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .signup-column:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .signup-column h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .date-slot {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e6ff;
+            transition: all 0.3s ease;
+        }
+
+        .date-slot:hover {
+            background: #f0f4ff;
+            border-color: #667eea;
+        }
+
+        .date-header {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .volunteer-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .volunteer-input input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e6ff;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .volunteer-input input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .volunteer-input input::placeholder {
+            color: #999;
+        }
+
+        .add-volunteer {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .add-volunteer:hover {
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+            transform: translateY(-2px);
+        }
+
+        .volunteer-list {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .volunteer-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: #f8f9ff;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .remove-volunteer {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .remove-volunteer:hover {
+            background: #ff5252;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .summary-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8ecff;
+        }
+
+        .summary-category {
+            margin-bottom: 10px;
+        }
+
+        .summary-category-title {
+            font-weight: 600;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+
+        .summary-volunteers {
+            color: #555;
+            margin-left: 10px;
+        }
+
+        .no-volunteers {
+            color: #999;
+            font-style: italic;
+            margin-left: 10px;
+        }
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .signup-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤝 YANC Signup</h1>
+            <p style="font-size: 0.9em; margin-bottom: 10px; opacity: 0.8;">Young Adults New Community</p>
+            <p>Sign up to help with food, drinks, and greeting!</p>
+        </div>
+        
+        <div class="content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('signup')">📝 Sign Up</button>
+                <button class="tab" onclick="showTab('summary')">📅 View Schedule</button>
+            </div>
+
+            <!-- Signup Tab -->
+            <div id="signup-tab" class="tab-content active">
+                <!-- Thursday Food & Drink Section -->
+                <div class="dropdown-section">
+                    <div class="dropdown-header" onclick="toggleDropdown('thursday')">
+                        <span>🍽️ Thursday Food & Drink</span>
+                        <span class="dropdown-arrow" id="thursday-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-content" id="thursday-content">
+                        <div class="signup-grid">
+                            <div class="signup-column">
+                                <h3>🥘 Food Volunteers</h3>
+                                <div id="food-dates"></div>
+                            </div>
+                            <div class="signup-column">
+                                <h3>🥤 Drink Volunteers</h3>
+                                <div id="drink-dates"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sunday Greeting Section -->
+                <div class="dropdown-section">
+                    <div class="dropdown-header" onclick="toggleDropdown('sunday')">
+                        <span>👋 Sunday Greeting @ Church</span>
+                        <span class="dropdown-arrow" id="sunday-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-content" id="sunday-content">
+                        <div class="signup-grid">
+                            <div class="signup-column">
+                                <h3>⛪ Greeting Volunteers</h3>
+                                <div id="greeting-dates"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Tab -->
+            <div id="summary-tab" class="tab-content">
+                <div class="section">
+                    <h2>📅 Volunteer Schedule Summary</h2>
+                    <div class="summary-grid" id="summary-grid">
+                        <!-- Summary content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Storage for volunteers
+        let volunteers = {
+            food: {},
+            drink: {},
+            greeting: {}
+        };
+
+        // Generate dates for the next 12 weeks
+        function generateDates() {
+            const thursdays = [];
+            const sundays = [];
+            const today = new Date();
+            
+            // Find next Thursday
+            let nextThursday = new Date(today);
+            nextThursday.setDate(today.getDate() + (4 - today.getDay() + 7) % 7);
+            if (nextThursday <= today) {
+                nextThursday.setDate(nextThursday.getDate() + 7);
+            }
+            
+            // Find next Sunday
+            let nextSunday = new Date(today);
+            nextSunday.setDate(today.getDate() + (7 - today.getDay()) % 7);
+            if (nextSunday <= today) {
+                nextSunday.setDate(nextSunday.getDate() + 7);
+            }
+            
+            // Generate 12 weeks of dates
+            for (let i = 0; i < 12; i++) {
+                const thursday = new Date(nextThursday);
+                thursday.setDate(nextThursday.getDate() + (i * 7));
+                thursdays.push(thursday);
+                
+                const sunday = new Date(nextSunday);
+                sunday.setDate(nextSunday.getDate() + (i * 7));
+                sundays.push(sunday);
+            }
+            
+            return { thursdays, sundays };
+        }
+
+        // Format date for display
+        function formatDate(date) {
+            return date.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Create date key for storage
+        function createDateKey(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        // Create volunteer slot HTML
+        function createVolunteerSlot(date, type) {
+            const dateKey = createDateKey(date);
+            const volunteersForDate = volunteers[type][dateKey] || [];
+            
+            const volunteerListHTML = volunteersForDate.length > 0 
+                ? volunteersForDate.map((name, index) => `
+                    <div class="volunteer-item">
+                        <span>${name}</span>
+                        <button class="remove-volunteer" onclick="removeVolunteer('${type}', '${dateKey}', ${index})">Remove</button>
+                    </div>
+                `).join('')
+                : '<div class="empty-state">No volunteers yet</div>';
+            
+            return `
+                <div class="date-slot">
+                    <div class="date-header">${formatDate(date)}</div>
+                    <div class="volunteer-input">
+                        <input type="text" placeholder="Enter your name" id="${type}-${dateKey}">
+                        <button class="add-volunteer" onclick="addVolunteer('${type}', '${dateKey}')">Add</button>
+                    </div>
+                    <div class="volunteer-list" id="${type}-list-${dateKey}">
+                        ${volunteerListHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add volunteer function
+        function addVolunteer(type, dateKey) {
+            const input = document.getElementById(`${type}-${dateKey}`);
+            const name = input.value.trim();
+            
+            if (name) {
+                if (!volunteers[type][dateKey]) {
+                    volunteers[type][dateKey] = [];
+                }
+                volunteers[type][dateKey].push(name);
+                input.value = '';
+                updateVolunteerList(type, dateKey);
+                updateSummary(); // Update summary when volunteer is added
+            }
+        }
+
+        // Remove volunteer function
+        function removeVolunteer(type, dateKey, index) {
+            if (volunteers[type][dateKey]) {
+                volunteers[type][dateKey].splice(index, 1);
+                if (volunteers[type][dateKey].length === 0) {
+                    delete volunteers[type][dateKey];
+                }
+                updateVolunteerList(type, dateKey);
+                updateSummary(); // Update summary when volunteer is removed
+            }
+        }
+
+        // Toggle dropdown function
+        function toggleDropdown(section) {
+            const content = document.getElementById(`${section}-content`);
+            const arrow = document.getElementById(`${section}-arrow`);
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                arrow.classList.remove('open');
+            } else {
+                content.classList.add('open');
+                arrow.classList.add('open');
+            }
+        }
+
+        // Show tab function
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Update summary if summary tab is selected
+            if (tabName === 'summary') {
+                updateSummary();
+            }
+        }
+
+        // Update summary function
+        function updateSummary() {
+            const summaryGrid = document.getElementById('summary-grid');
+            const { thursdays, sundays } = generateDates();
+            
+            // Combine all dates and sort them
+            const allDates = [
+                ...thursdays.map(date => ({ date, day: 'Thursday', types: ['food', 'drink'] })),
+                ...sundays.map(date => ({ date, day: 'Sunday', types: ['greeting'] }))
+            ].sort((a, b) => a.date - b.date);
+            
+            const summaryHTML = allDates.map(({ date, day, types }) => {
+                const dateKey = createDateKey(date);
+                const dateStr = formatDate(date);
+                
+                let categoriesHTML = '';
+                
+                types.forEach(type => {
+                    const typeVolunteers = volunteers[type][dateKey] || [];
+                    const typeName = type === 'food' ? 'Food' : type === 'drink' ? 'Drink' : 'Greeting';
+                    
+                    categoriesHTML += `
+                        <div class="summary-category">
+                            <div class="summary-category-title">${typeName}:</div>
+                            <div class="${typeVolunteers.length > 0 ? 'summary-volunteers' : 'no-volunteers'}">
+                                ${typeVolunteers.length > 0 ? typeVolunteers.join(', ') : 'No volunteers yet'}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                return `
+                    <div class="summary-card">
+                        <div class="summary-date">${dateStr}</div>
+                        ${categoriesHTML}
+                    </div>
+                `;
+            }).join('');
+            
+            summaryGrid.innerHTML = summaryHTML;
+        }
+
+        // Update volunteer list display
+        function updateVolunteerList(type, dateKey) {
+            const listContainer = document.getElementById(`${type}-list-${dateKey}`);
+            const volunteersForDate = volunteers[type][dateKey] || [];
+            
+            if (volunteersForDate.length > 0) {
+                listContainer.innerHTML = volunteersForDate.map((name, index) => `
+                    <div class="volunteer-item">
+                        <span>${name}</span>
+                        <button class="remove-volunteer" onclick="removeVolunteer('${type}', '${dateKey}', ${index})">Remove</button>
+                    </div>
+                `).join('');
+            } else {
+                listContainer.innerHTML = '<div class="empty-state">No volunteers yet</div>';
+            }
+        }
+
+        // Initialize the page
+        function init() {
+            const { thursdays, sundays } = generateDates();
+            
+            // Populate food dates
+            const foodContainer = document.getElementById('food-dates');
+            foodContainer.innerHTML = thursdays.map(date => createVolunteerSlot(date, 'food')).join('');
+            
+            // Populate drink dates
+            const drinkContainer = document.getElementById('drink-dates');
+            drinkContainer.innerHTML = thursdays.map(date => createVolunteerSlot(date, 'drink')).join('');
+            
+            // Populate greeting dates
+            const greetingContainer = document.getElementById('greeting-dates');
+            greetingContainer.innerHTML = sundays.map(date => createVolunteerSlot(date, 'greeting')).join('');
+            
+            // Initialize summary
+            updateSummary();
+        }
+
+        // Handle enter key press
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                const id = e.target.id;
+                const [type, dateKey] = id.split('-');
+                addVolunteer(type, dateKey);
+            }
+        });
+
+        // Initialize when page loads
+        init();
+    </script>
+</body>
+</html>
