@@ -205,6 +205,8 @@
             padding: 25px;
             border: 2px solid transparent;
             transition: all 0.3s ease;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .signup-column:hover {
@@ -226,6 +228,8 @@
             margin-bottom: 15px;
             border: 1px solid #e0e6ff;
             transition: all 0.3s ease;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .date-slot:hover {
@@ -245,6 +249,8 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 8px;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .volunteer-input input {
@@ -254,6 +260,8 @@
             border-radius: 6px;
             font-size: 16px;
             transition: border-color 0.3s ease;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .volunteer-input input:focus {
@@ -275,6 +283,9 @@
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s ease;
+            flex-shrink: 0;
+            min-height: 44px;
+            box-sizing: border-box;
         }
 
         .add-volunteer:hover {
@@ -363,6 +374,19 @@
             font-style: italic;
             margin-left: 10px;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
             .header h1 {
                 font-size: 2em;
             }
@@ -377,6 +401,54 @@
             
             .signup-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .signup-column {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 15px;
+            }
+            
+            .date-slot {
+                max-width: 100%;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .volunteer-input {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .volunteer-input input {
+                min-width: 0;
+                flex: 1 1 60%;
+            }
+            
+            .add-volunteer {
+                flex: 0 0 auto;
+                min-width: 60px;
+                white-space: nowrap;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .tab {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dropdown-content {
+                padding: 20px;
             }
         }
     </style>
